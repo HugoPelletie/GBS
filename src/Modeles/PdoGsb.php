@@ -94,7 +94,7 @@ class PdoGsb
     {
         $requetePrepare = $this->connexion->prepare(
             'SELECT visiteur.id AS id, visiteur.nom AS nom, '
-            . 'visiteur.prenom AS prenom '
+            . 'visiteur.prenom AS prenom, visiteur.email as email '
             . 'FROM visiteur '
             . 'WHERE visiteur.login = :unLogin AND visiteur.mdp = :unMdp'
         );
@@ -103,8 +103,36 @@ class PdoGsb
         $requetePrepare->execute();
         return $requetePrepare->fetch();
     }
-
+    function estConnecte()
+        {
+            return isset($_SESSION['idVisiteur']) && isset($_SESSION['codeA2f']);
+        }
+        public function setCodeA2f($id, $code) {
+            $requetePrepare = $this->connexion->prepare(
+                'UPDATE visiteur '
+              . 'SET codea2f = :unCode '
+              . 'WHERE visiteur.id = :unIdVisiteur '
+            );
+            $requetePrepare->bindParam(':unCode', $code, PDO::PARAM_STR);
+            $requetePrepare->bindParam(':unIdVisiteur', $id, PDO::PARAM_STR);
+            $requetePrepare->execute();
+        }
+        public function getCodeVisiteur($id) {
+            $requetePrepare = $this->connexion->prepare(
+                'SELECT visiteur.codea2f AS codea2f '
+              . 'FROM visiteur '
+              . 'WHERE visiteur.id = :unId'
+            );
+            $requetePrepare->bindParam(':unId', $id, PDO::PARAM_STR);
+            $requetePrepare->execute();
+            return $requetePrepare->fetch()['codea2f'];
+        }
+        public static function connecterA2f($code)
+{
+    $_SESSION['codeA2f'] = $code;
+}
     /**
+     * 
      * Retourne sous forme d'un tableau associatif toutes les lignes de frais
      * hors forfait concernées par les deux arguments.
      * La boucle foreach ne peut être utilisée ici car on procède

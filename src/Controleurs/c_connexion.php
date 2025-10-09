@@ -41,6 +41,17 @@ switch ($action) {
             Utilitaires::connecter($id, $nom, $prenom);
             header('Location: index.php');
         }
+        case 'valideA2fConnexion':
+            $code = filter_input(INPUT_POST, 'code', FILTER_SANITIZE_NUMBER_INT);
+            if ($pdo->getCodeVisiteur($_SESSION['idVisiteur']) !== $code) {
+                Utilitaires::ajouterErreur('Code de vérification incorrect');
+                include PATH_VIEWS . 'v_erreurs.php';
+                include PATH_VIEWS . 'v_code2facteurs.php';
+            } else {
+                Utilitaires::connecterA2f($code);
+                header('Location: index.php');
+            }
+            break;
         break;
     default:
         include PATH_VIEWS . 'v_connexion.php';
