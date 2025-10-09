@@ -1,20 +1,5 @@
 <?php
 
-/**
- * Index du projet GSB
- *
- * PHP Version 8
- *xcvc
- * @category  PPE
- * @package   GSB
- * @author    Réseau CERTA <contact@reseaucerta.org>
- * @author    José GIL <jgil@ac-nice.fr>
- * @copyright 2017 Réseau CERTA
- * @license   Réseau CERTA
- * @version   GIT: <0>
- * @link      http://www.reseaucerta.org Contexte « Laboratoire GSB »
- */
-
 use Modeles\PdoGsb;
 use Outils\Utilitaires;
 
@@ -48,6 +33,9 @@ switch ($uc) {
         break;
     case 'etatFrais':
         include PATH_CTRLS . 'c_etatFrais.php';
+        break;
+    case 'validationFicheDeFrais.php':
+        include PATH_CTRLS . 'c_validationFicheDeFrais.php';
         break;
     case 'deconnexion':
         include PATH_CTRLS . 'c_deconnexion.php';
