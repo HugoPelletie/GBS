@@ -36,6 +36,7 @@ switch ($action) {
             Utilitaires::ajouterErreur('Les valeurs des frais doivent être numériques');
             include PATH_VIEWS . 'v_erreurs.php';
         }
+         
         break;
     case 'validerCreationFrais':
         $dateFrais = Utilitaires::dateAnglaisVersFrancais(
