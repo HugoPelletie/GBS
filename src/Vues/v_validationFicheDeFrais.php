@@ -1,19 +1,23 @@
-<?php
+<h2>Validation de la fiche de frais</h2>
 
-use Modeles\PdoGsb;
-use Outils\Utilitaires;
+<form method="POST" action="index.php?uc=validationFiche&action=validerFiche">
 
-require '../vendor/autoload.php';
-require '../config/define.php';
+    <input type="hidden" name="idVisiteur" value="<?= $idVisiteur ?>">
+    <input type="hidden" name="mois" value="<?= $mois ?>">
 
-session_start();
+    <h3>Frais forfaitisés</h3>
+    <?php foreach ($lesFraisForfait as $frais) : ?>
+        <label><?= $frais['libelle'] ?> :</label>
+        <input type="number" name="lesFrais[<?= $frais['idfrais'] ?>]" value="<?= $frais['quantite'] ?>"><br>
+    <?php endforeach; ?>
 
-$pdo = PdoGsb::getPdoGsb();
-$estConnecte = Utilitaires::estConnecte();
+    <h3>Frais hors forfait</h3>
+    <?php foreach ($lesFraisHorsForfait as $hf) : ?>
+        <div>
+            <?= $hf['date'] ?> - <?= $hf['libelle'] ?> - <?= $hf['montant'] ?> €
+            <input type="checkbox" name="refuserHF[]" value="<?= $hf['id'] ?>"> Refuser
+        </div>
+    <?php endforeach; ?>
 
-require PATH_VIEWS . 'v_entete.php';
-
-$uc = filter_input(INPUT_GET, 'uc', FILTER_SANITIZE_FULL_SPECIAL_CHARS);
-
-
-require PATH_VIEWS . 'v_pied.php';
+    <button type="submit">Valider la fiche</button>
+</form>

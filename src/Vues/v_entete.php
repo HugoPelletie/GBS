@@ -64,6 +64,12 @@
                                     Afficher mes fiches de frais
                                 </a>
                             </li>
+                            <li <?php if ($uc == 'paiements') { ?>class="active"<?php } ?>>
+                                <a href="index.php?uc=paiements">
+                                    <span class="glyphicon glyphicon-credit"></span>
+                                    Suivi des paiements
+                                </a>
+                            </li>
                             <li 
                             <?php if ($uc == 'deconnexion') { ?>class="active"<?php } ?>>
                                 <a href="index.php?uc=deconnexion&action=demandeDeconnexion">
