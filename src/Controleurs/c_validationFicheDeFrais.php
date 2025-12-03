@@ -24,4 +24,26 @@ switch ($action) {
         include 'src/Vues/v_validationFiche.php';
         break;
 
- 
+    case 'validerFiche':
+        $idVisiteur = $_POST['idVisiteur'];
+        $mois = $_POST['mois'];
+
+        foreach ($_POST['lesFrais'] as $idFrais => $quantite) {
+            $pdo->majFraisForfait($idVisiteur, $mois, $idFrais, (int)$quantite);
+        }
+
+
+        if (isset($_POST['refuserHF'])) {
+            foreach ($_POST['refuserHF'] as $idFraisHF) {
+
+                $pdo->refuserFraisHorsForfait($idFraisHF);
+            }
+        }
+
+        $pdo->majEtatFiche($idVisiteur, $mois, 'VA'); 
+        $pdo->majDateValidation($idVisiteur, $mois);
+
+        $_SESSION['message'] = "La fiche a bien été validée.";
+        header("Location: index.php?uc=validationFiche&action=selectionFiche");
+        break;
+}
